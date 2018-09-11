@@ -31,9 +31,32 @@ defmodule EExHTML do
 
   #### JavaScript
 
-  TODO
+  >  Including untrusted data inside any other JavaScript context is quite dangerous, as it is extremely easy to switch into an execution context with characters including (but not limited to) semi-colon, equals, space, plus, and many more, so use with caution.
+  [XSS Prevention Cheat Sheet](https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet#RULE_.233_-_JavaScript_Escape_Before_Inserting_Untrusted_Data_into_JavaScript_Data_Values)
+
+  **DONT DO THIS**
+
+        ~E\"\"\"
+        <script type="text/javascript">
+          console.log('Hello, ' + <%= name %>)
+        </script>
+        \"\"\"
+
+  Use `javascript_variables/1` for injecting variables into any JavaScript environment.
+
+  **DO THIS**
+
+        ~E\"\"\"
+        <%= javascript_variables name: "Cynthia" %>
+        <script type="text/javascript">
+          console.log('Hello, ' + name)
+        </script>
+        \"\"\"
 
   #### Raw content
+  <script type="text/javascript">
+    console.log('Hello, ' + <%= name %>)
+  </script>
 
   **Data supplied by the user or other external source should never be considered safe.
   The assumption that user data is safe is the source of [Cross-Site Scripting(XSS)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)) attacks.**
@@ -205,5 +228,33 @@ defmodule EExHTML do
 
   defp to_iodata(<<>>, skip, original, acc, len) do
     [acc | binary_part(original, skip, len)]
+  end
+
+  @doc """
+  Safety inject server variables into a pages JavaScript.
+  """
+  case Code.ensure_loaded(Jason) do
+    {:module, _} ->
+      def javascript_variables(variables) do
+        variables = Enum.into(variables, %{})
+
+        json = Jason.encode_to_iodata!(variables)
+
+        key_string =
+          variables
+          |> Map.keys()
+          |> Enum.map(&Atom.to_string/1)
+          |> Enum.join(", ")
+
+        ~E"""
+        <div style='display:none;'><%= json %></div>
+        <script>const{<%= key_string %>}=JSON.parse(document.currentScript.previousElementSibling.textContent)</script>"
+        """
+      end
+
+    {:error, :nofile} ->
+      def javascript_variables(_variables) do
+        raise "`javascript_variables/1` requires the Jason encoder, add `{:jason, \"~> 1.0.0\"}` to `mix.exs`"
+      end
   end
 end
