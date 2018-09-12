@@ -249,7 +249,7 @@ defmodule EExHTML do
 
         ~E"""
         <div style='display:none;'><%= json %></div>
-        <script>const{<%= key_string %>}=JSON.parse(document.currentScript.previousElementSibling.textContent)</script>"
+        <script>const{<%= key_string %>}=JSON.parse(document.currentScript.previousElementSibling.textContent)</script>
         """
       end
 
