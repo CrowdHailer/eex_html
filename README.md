@@ -9,3 +9,22 @@
 
 - [Install from hex.pm](https://hex.pm/packages/eex_html)
 - [Documentation available on hexdoc](https://hexdocs.pm/eex_html)
+
+## Usage
+
+```elixir
+iex> title = "EEx Rocks!"
+iex> content = ~E"<h1><%= title %></h1>"
+iex> "#{content}"
+"<h1>EEx Rocks!</h1>"
+
+iex> title = "<script>"
+iex> content = ~E"<h1><%= title %></h1>"
+iex> "#{content}"
+"<h1>&lt;script&gt;</h1>"
+```
+
+## Elixir language proposal
+
+I would like to see this project as part of the Elixir language.
+The reasons for this are explained in [this proposal](https://groups.google.com/forum/#!topic/elixir-lang-core/NC3TSaw19uk).
