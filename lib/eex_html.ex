@@ -54,6 +54,7 @@ defmodule EExHTML do
         \"\"\"
 
   #### Raw content
+
   <script type="text/javascript">
     console.log('Hello, ' + <%= name %>)
   </script>
