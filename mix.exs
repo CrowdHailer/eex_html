@@ -39,7 +39,7 @@ defmodule EExHTML.MixProject do
     [
       maintainers: ["Peter Saxton"],
       licenses: ["Apache 2.0"],
-      links: %{"GitHub" => "https://github.com/crowdhailer/raxx"}
+      links: %{"GitHub" => "https://github.com/crowdhailer/eex_html"}
     ]
   end
 end
