@@ -22,6 +22,11 @@ defimpl EExHTML.Safe, for: EExHTML.Safe do
   def to_iodata(%{data: data}), do: data
 end
 
+defimpl EExHTML.Safe, for: List do
+  def to_iodata([head | tail]), do: [EExHTML.Safe.to_iodata(head) | EExHTML.Safe.to_iodata(tail)]
+  def to_iodata([]), do: []
+end
+
 defimpl EExHTML.Safe, for: Any do
   def to_iodata(term), do: String.Chars.to_string(term) |> EExHTML.escape_to_iodata()
 end

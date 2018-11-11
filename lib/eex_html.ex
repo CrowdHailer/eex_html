@@ -86,7 +86,7 @@ defmodule EExHTML do
 
   The `EExHTML.Engine` implements the `EEx.Engine` behaviour and can be used in `EEx` functions.
 
-      iex> EEx.eval_string("<%= title %>", [title: "<script>"], engine: EExHTML.Engine)
+      iex> EEx.eval_string("<%= title %>", [title: "<script>"], engine: EExHTML.Engine).data
       [[], [[[] | "&lt;"], "script" | "&gt;"]]
   """
   alias __MODULE__.Safe
