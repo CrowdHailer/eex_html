@@ -1,5 +1,12 @@
 # Changelog
 
+## next
+
+## Changed
+
+- `EExHTML.Engine` returns content wrapped in a `EExHTML.Safe` struct,
+  this removes the requirements for templates that produced a list of content to explicitly mark it safe.
+
 ## [0.1.1](https://github.com/CrowdHailer/eex_html/tree/0.1.1) - 2018-09-12
 
 ### Fixed
