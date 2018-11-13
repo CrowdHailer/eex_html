@@ -1,5 +1,5 @@
 defmodule EExHTML.Engine do
-  @moduledoc """
+  @moduledoc ~S"""
   An engine for templating HTML content.
 
   Interpolated values are HTML escaped,
@@ -10,29 +10,33 @@ defmodule EExHTML.Engine do
   ## Examples
 
       iex> EEx.eval_string("foo <%= bar %>", [bar: "baz"], engine: EExHTML.Engine)
-      ...> |> IO.iodata_to_binary()
+      ...> |> String.Chars.to_string
       "foo baz"
 
       iex> EEx.eval_string("foo <%= bar %>", [bar: "<script>"], engine: EExHTML.Engine)
-      ...> |> IO.iodata_to_binary()
+      ...> |> String.Chars.to_string
       "foo &lt;script&gt;"
 
       iex> EEx.eval_string("foo <%= bar %>", [bar: EExHTML.raw("<script>")], engine: EExHTML.Engine)
-      ...> |> IO.iodata_to_binary()
+      ...> |> String.Chars.to_string
       "foo <script>"
 
       iex> EEx.eval_string("foo <%= @bar %>", [assigns: %{bar: "<script>"}], engine: EExHTML.Engine)
-      ...> |> IO.iodata_to_binary()
+      ...> |> String.Chars.to_string
       "foo &lt;script&gt;"
+
+      iex> EEx.eval_string("<%= for _ <- 1..1 do %><p><%= bar %></p><% end %>", [bar: "<script>"], engine: EExHTML.Engine)
+      ...> |> String.Chars.to_string
+      "<p>&lt;script&gt;</p>"
   """
   use EEx.Engine
 
   def init(_options) do
-    quote do: []
+    quote do: EExHTML.raw([])
   end
 
   def handle_begin(_previous) do
-    quote do: []
+    quote do: EExHTML.raw([])
   end
 
   def handle_end(quoted) do
@@ -41,7 +45,7 @@ defmodule EExHTML.Engine do
 
   def handle_text(buffer, text) do
     quote do
-      [unquote(buffer) | unquote(text)]
+      EExHTML.raw([unquote(buffer).data | unquote(text)])
     end
   end
 
@@ -53,7 +57,7 @@ defmodule EExHTML.Engine do
     expr = Macro.prewalk(expr, &EEx.Engine.handle_assign/1)
 
     quote do
-      [unquote(buffer), EExHTML.escape(unquote(expr)).data]
+      EExHTML.raw([unquote(buffer).data, EExHTML.escape(unquote(expr)).data])
     end
   end
 
