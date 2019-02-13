@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.1](https://github.com/CrowdHailer/eex_html/tree/0.2.1) - 2019-02-13
+
+### Fixed
+
+- Safe encoding of JavaScript variables fixed by not using iodata encoding.
+
 ## [0.2.0](https://github.com/CrowdHailer/eex_html/tree/0.2.0) - 2018-11-13
 
 ### Changed

@@ -239,7 +239,12 @@ defmodule EExHTML do
       def javascript_variables(variables) do
         variables = Enum.into(variables, %{})
 
-        json = Jason.encode_to_iodata!(variables)
+        json = Jason.encode!(variables)
+        # NOTE returned io_data contains integer values, which ar valid io_data.
+        # IO.iodata_to_binary([34]) == "\""
+        # Because EExHTML.Safe makes use of String.Chars it is not possible to know how `[34]` should be printed.
+        # "34" or "\"", for this reason we can't use iodata encoding.
+        # json = Jason.encode_to_iodata!(variables)
 
         key_string =
           variables
