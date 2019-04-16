@@ -4,7 +4,7 @@ defmodule EExHTML.MixProject do
   def project do
     [
       app: :eex_html,
-      version: "0.2.1",
+      version: "1.0.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -16,7 +16,6 @@ defmodule EExHTML.MixProject do
 
   def application do
     [
-      # `:eex` added to reduce dialyzer warnings
       extra_applications: [:logger, :eex]
     ]
   end
@@ -24,7 +23,9 @@ defmodule EExHTML.MixProject do
   defp deps do
     [
       {:jason, "~> 1.0", optional: true},
-      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      # Dialyzer not useful on this project.
+      # Doesn't play nice with protocols https://github.com/elixir-lang/elixir/issues/7708
+      # {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end

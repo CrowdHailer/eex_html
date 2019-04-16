@@ -1,6 +1,6 @@
 # Changelog
 
-## Next
+## [1.0.0](https://github.com/CrowdHailer/eex_html/tree/1.0.0) - 2019-04-16
 
 ### Changed
 
