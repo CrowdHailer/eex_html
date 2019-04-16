@@ -1,5 +1,11 @@
 # Changelog
 
+## Next
+
+### Changed
+
+- Make `Jason` an optional dependency.
+
 ## [0.2.1](https://github.com/CrowdHailer/eex_html/tree/0.2.1) - 2019-02-13
 
 ### Fixed
