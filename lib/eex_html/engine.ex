@@ -29,7 +29,7 @@ defmodule EExHTML.Engine do
       ...> |> String.Chars.to_string
       "<p>&lt;script&gt;</p>"
   """
-  use EEx.Engine
+  require EEx.Engine
 
   def init(_options) do
     quote do: EExHTML.raw([])
@@ -71,7 +71,8 @@ defmodule EExHTML.Engine do
     end
   end
 
-  def handle_expr(buffer, type, expr) do
-    super(buffer, type, expr)
+  def handle_expr(state, marker, expr) do
+    expr = Macro.prewalk(expr, &EEx.Engine.handle_assign/1)
+    EEx.Engine.handle_expr(state, marker, expr)
   end
 end

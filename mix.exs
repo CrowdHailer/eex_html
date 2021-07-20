@@ -5,7 +5,7 @@ defmodule EExHTML.MixProject do
     [
       app: :eex_html,
       version: "1.0.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
