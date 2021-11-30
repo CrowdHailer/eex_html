@@ -136,10 +136,10 @@ defmodule EExHTML do
   @doc """
   This module adds `~E` sigil for safe HTML escaped content.
   """
-  defmacro sigil_E({:<<>>, [line: line], [template]}, []) do
-    ast = EEx.compile_string(template, engine: EExHTML.Engine, line: line + 1)
+  defmacro sigil_E({:<<>>, meta, [template]}, []) do
+    ast = EEx.compile_string(template, engine: EExHTML.Engine, line: meta[:line] + 1)
 
-    quote line: line do
+    quote line: meta[:line] do
       EExHTML.raw(unquote(ast))
     end
   end
