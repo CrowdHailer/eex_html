@@ -43,6 +43,12 @@ defmodule EExHTML.Engine do
     quoted
   end
 
+  def handle_text(buffer, _meta, text) do
+    quote do
+      EExHTML.raw([unquote(buffer).data | unquote(text)])
+    end
+  end
+
   def handle_text(buffer, text) do
     quote do
       EExHTML.raw([unquote(buffer).data | unquote(text)])
